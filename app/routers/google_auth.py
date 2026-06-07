@@ -86,8 +86,14 @@ async def google_callback(code: str = "", db: Session = Depends(get_db)):
     return HTMLResponse(content=html)
 
 
+from pydantic import BaseModel
+
+class TokenRequest(BaseModel):
+    id_token: str
+
 @router.post("/token")
-async def google_token(id_token: str, db: Session = Depends(get_db)):
+async def google_token(req: TokenRequest, db: Session = Depends(get_db)):
+    id_token = req.id_token
     async with httpx.AsyncClient() as client:
         user_resp = await client.get(GOOGLE_USERINFO_URL, headers={
             "Authorization": f"Bearer {id_token}"

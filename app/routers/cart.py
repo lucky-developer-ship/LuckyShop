@@ -16,8 +16,10 @@ def get_cart(
     current_user: models.User = Depends(auth.get_current_user),
     db: Session = Depends(get_db),
 ):
+    from sqlalchemy.orm import joinedload
     items = (
         db.query(models.CartItem)
+        .options(joinedload(models.CartItem.product))
         .filter(models.CartItem.user_id == current_user.id)
         .all()
     )

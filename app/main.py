@@ -60,9 +60,17 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         client_ip = request.client.host if request.client else "unknown"
         now = time.time()
 
-        rate_limit_store[client_ip] = [
-            t for t in rate_limit_store[client_ip] if now - t < RATE_WINDOW
-        ]
+        import random
+        if random.random() < 0.05:
+            for ip in list(rate_limit_store.keys()):
+                rate_limit_store[ip] = [t for t in rate_limit_store[ip] if now - t < RATE_WINDOW]
+                if not rate_limit_store[ip]:
+                    rate_limit_store.pop(ip, None)
+        else:
+            rate_limit_store[client_ip] = [
+                t for t in rate_limit_store[client_ip] if now - t < RATE_WINDOW
+            ]
+
         if len(rate_limit_store[client_ip]) >= RATE_LIMIT:
             return JSONResponse(
                 status_code=429,

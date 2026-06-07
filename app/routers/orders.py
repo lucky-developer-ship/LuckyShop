@@ -77,10 +77,13 @@ def get_orders(
     current_user: models.User = Depends(auth.get_current_user),
     db: Session = Depends(get_db),
 ):
+    from sqlalchemy.orm import joinedload
     orders = (
         db.query(models.Order)
+        .options(joinedload(models.Order.items).joinedload(models.OrderItem.product))
         .filter(models.Order.user_id == current_user.id)
         .order_by(models.Order.created_at.desc())
+        .limit(100)
         .all()
     )
     result = []

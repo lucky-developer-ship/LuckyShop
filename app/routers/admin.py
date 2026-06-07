@@ -17,7 +17,7 @@ def list_users(
     admin: models.User = Depends(get_admin_user),
     db: Session = Depends(get_db),
 ):
-    users = db.query(models.User).all()
+    users = db.query(models.User).limit(100).all()
     return [
         schemas.UserResponse(
             id=u.id, username=u.username, email=u.email,
@@ -31,7 +31,14 @@ def list_all_orders(
     admin: models.User = Depends(get_admin_user),
     db: Session = Depends(get_db),
 ):
-    orders = db.query(models.Order).order_by(models.Order.created_at.desc()).all()
+    from sqlalchemy.orm import joinedload
+    orders = (
+        db.query(models.Order)
+        .options(joinedload(models.Order.items).joinedload(models.OrderItem.product))
+        .order_by(models.Order.created_at.desc())
+        .limit(100)
+        .all()
+    )
     result = []
     for order in orders:
         items = [

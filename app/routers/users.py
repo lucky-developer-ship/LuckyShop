@@ -35,7 +35,15 @@ def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     now = time.time()
     client = form_data.username
-    login_attempts[client] = [t for t in login_attempts[client] if now - t < LOCKOUT_WINDOW]
+    import random
+    if random.random() < 0.05:
+        for c in list(login_attempts.keys()):
+            login_attempts[c] = [t for t in login_attempts[c] if now - t < LOCKOUT_WINDOW]
+            if not login_attempts[c]:
+                login_attempts.pop(c, None)
+    else:
+        login_attempts[client] = [t for t in login_attempts[client] if now - t < LOCKOUT_WINDOW]
+        
     if len(login_attempts[client]) >= MAX_ATTEMPTS:
         raise HTTPException(
             status_code=429,
