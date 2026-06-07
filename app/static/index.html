@@ -1414,6 +1414,48 @@
             .cart-drawer {
                 box-shadow: 0 -4px 30px rgba(0,0,0,0.5);
             }
+
+            /* Hide in-menu toggle on mobile */
+            .nav-links .theme-toggle { display: none; }
+        }
+
+        /* Floating Theme Toggle - Mobile Only */
+        .mobile-theme-toggle {
+            display: none;
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+            cursor: pointer;
+            z-index: 199;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s var(--ease-out);
+            font-size: 1.2rem;
+            backdrop-filter: blur(10px);
+        }
+        .mobile-theme-toggle:hover {
+            transform: scale(1.1);
+            border-color: var(--primary);
+        }
+        .mobile-theme-toggle:active {
+            transform: scale(0.95);
+        }
+        body.light .mobile-theme-toggle {
+            background: rgba(255,255,255,0.9);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-color: rgba(0,0,0,0.08);
+        }
+
+        @media (max-width: 768px) {
+            .mobile-theme-toggle {
+                display: flex;
+            }
         }
 
         /* Small phones */
@@ -1711,6 +1753,11 @@
     </div>
 </div>
 
+<!-- Floating Theme Toggle (Mobile) -->
+<div class="mobile-theme-toggle" id="mobileThemeToggle" onclick="toggleTheme()" title="Toggle theme">
+    <span id="mobileThemeIcon">&#9790;</span>
+</div>
+
 <!-- Toast -->
 <div class="toast" id="toast"></div>
 
@@ -1904,13 +1951,16 @@ function initTheme() {
     if (saved === 'light') {
         document.body.classList.add('light');
         document.getElementById('themeIcon').textContent = '\u2600';
+        document.getElementById('mobileThemeIcon').textContent = '\u2600';
     }
 }
 function toggleTheme() {
     document.body.classList.toggle('light');
     const isLight = document.body.classList.contains('light');
     localStorage.setItem('theme', isLight ? 'light' : 'dark');
-    document.getElementById('themeIcon').textContent = isLight ? '\u2600' : '\u263E';
+    const icon = isLight ? '\u2600' : '\u263E';
+    document.getElementById('themeIcon').textContent = icon;
+    document.getElementById('mobileThemeIcon').textContent = icon;
 }
 
 // ===== Mobile Menu =====
