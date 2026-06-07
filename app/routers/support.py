@@ -1,6 +1,8 @@
 from fastapi import APIRouter, HTTPException
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel
+import logging
 
+logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/support", tags=["support"])
 
 
@@ -18,12 +20,17 @@ class SupportResponse(BaseModel):
 
 @router.post("/", response_model=SupportResponse)
 def submit_support(request: SupportRequest):
-    if not request.name or not request.email or not request.message:
+    name = request.name.strip()[:100]
+    email = request.email.strip().lower()[:200]
+    message = request.message.strip()[:5000]
+
+    if not name or not email or not message:
         raise HTTPException(status_code=400, detail="Name, email, and message are required")
 
-    print(f"[SUPPORT] New message from {request.name} ({request.email})")
-    print(f"  Subject: {request.subject}")
-    print(f"  Message: {request.message}")
+    if "@" not in email or "." not in email.split("@")[-1]:
+        raise HTTPException(status_code=400, detail="Invalid email address")
+
+    logger.info(f"[SUPPORT] New message from {name} ({email}) - Subject: {request.subject}")
 
     return SupportResponse(
         success=True,

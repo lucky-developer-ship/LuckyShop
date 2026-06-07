@@ -17,7 +17,13 @@ def list_users(
     admin: models.User = Depends(get_admin_user),
     db: Session = Depends(get_db),
 ):
-    return db.query(models.User).all()
+    users = db.query(models.User).all()
+    return [
+        schemas.UserResponse(
+            id=u.id, username=u.username, email=u.email,
+            is_active=u.is_active, created_at=u.created_at
+        ) for u in users
+    ]
 
 
 @router.get("/orders", response_model=list[schemas.OrderResponse])
