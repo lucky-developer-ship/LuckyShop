@@ -498,6 +498,33 @@
             border-color: rgba(255,255,255,0.1);
             transform: translateY(-2px);
         }
+        .btn-explore {
+            padding: 0.85rem 2rem;
+            background: rgba(128, 0, 255, 0.15);
+            color: #a855f7;
+            border: 1px solid rgba(128, 0, 255, 0.3);
+            border-radius: 12px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-out);
+            font-family: 'Inter', sans-serif;
+            backdrop-filter: blur(10px);
+        }
+        .btn-explore:hover {
+            background: rgba(128, 0, 255, 0.25);
+            border-color: rgba(128, 0, 255, 0.5);
+            transform: translateY(-2px);
+        }
+        body.light .btn-explore {
+            background: rgba(128, 0, 255, 0.1);
+            color: #7c3aed;
+            border-color: rgba(128, 0, 255, 0.2);
+        }
+        body.light .btn-explore:hover {
+            background: rgba(128, 0, 255, 0.2);
+            border-color: rgba(128, 0, 255, 0.4);
+        }
         .hero-search {
             display: flex;
             max-width: 600px;
@@ -1372,7 +1399,7 @@
     <p class="hero-desc">Curated collections of premium products designed to elevate your everyday experience.</p>
     <div class="hero-buttons">
         <button class="btn-primary shop-now-btn" onclick="document.getElementById('products').scrollIntoView({behavior:'smooth'})">Shop Now</button>
-        <button class="btn-secondary">Explore</button>
+        <button class="btn-explore">Explore</button>
     </div>
     <div class="hero-search">
         <input type="text" id="searchInput" placeholder="Search products..." oninput="toggleClearBtn(); debouncedSearch()" onkeydown="if(event.key==='Enter')filterProducts()">
