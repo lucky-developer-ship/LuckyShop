@@ -1,5 +1,5 @@
 from datetime import datetime, timezone
-from pydantic import BaseModel, EmailStr, field_validator
+from pydantic import BaseModel, field_validator
 
 
 def sanitize_str(v: str) -> str:
