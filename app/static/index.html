@@ -589,6 +589,50 @@
             background: rgba(128, 0, 255, 0.2);
             border-color: rgba(128, 0, 255, 0.4);
         }
+        .see-more-wrapper {
+            display: flex;
+            justify-content: center;
+            padding: 1.5rem 1.5rem 3rem;
+        }
+        .btn-see-more {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.85rem 2.2rem;
+            background: var(--glass);
+            color: var(--text);
+            border: 1px solid var(--border);
+            border-radius: 50px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-out);
+            font-family: 'Inter', sans-serif;
+            backdrop-filter: blur(10px);
+        }
+        .btn-see-more:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(99, 102, 241, 0.3);
+        }
+        .btn-see-more svg {
+            width: 18px;
+            height: 18px;
+            transition: transform 0.3s;
+        }
+        .btn-see-more:hover svg {
+            transform: translateY(2px);
+        }
+        body.light .btn-see-more {
+            background: rgba(0,0,0,0.03);
+            border-color: rgba(0,0,0,0.08);
+        }
+        body.light .btn-see-more:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
         .hero-search {
             display: flex;
             max-width: 600px;
@@ -1790,6 +1834,14 @@ body.light .mobile-taskbar {
     </div>
 </div>
 
+<!-- See More Button -->
+<div class="see-more-wrapper" id="seeMoreWrapper" style="display:none;">
+    <button class="btn-see-more" id="seeMoreBtn" onclick="showMoreProducts()">
+        <span>See More</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+    </button>
+</div>
+
 <!-- Login Modal -->
 <div class="modal-overlay" id="loginModal">
     <div class="modal">
@@ -2083,6 +2135,7 @@ const API = '';
 let token = localStorage.getItem('token');
 let allProducts = [];
 let currentCategory = '';
+let displayedCount = 12;
 
 function h(str) {
     if (str == null) return '';
@@ -2396,9 +2449,11 @@ function renderProducts(products, animate = false) {
     if (spinner) spinner.remove();
     if (products.length === 0) {
         grid.innerHTML = '<div class="empty-state">No products found</div>';
+        document.getElementById('seeMoreWrapper').style.display = 'none';
         return;
     }
-    grid.innerHTML = products.map(p => `
+    const toShow = products.slice(0, displayedCount);
+    grid.innerHTML = toShow.map(p => `
         <div class="product-card">
             <div class="image-wrapper">
                 <img src="${h(p.image_url) || 'https://via.placeholder.com/300x200?text=' + encodeURIComponent(h(p.name))}" alt="${h(p.name)}" loading="lazy">
@@ -2416,7 +2471,27 @@ function renderProducts(products, animate = false) {
             </div>
         </div>
     `).join('');
+
+    const wrapper = document.getElementById('seeMoreWrapper');
+    if (products.length > displayedCount) {
+        wrapper.style.display = 'flex';
+    } else {
+        wrapper.style.display = 'none';
+    }
+
     if (animate) setTimeout(animateProductCards, 50);
+}
+
+function showMoreProducts() {
+    displayedCount += 12;
+    if (currentCategory || document.getElementById('searchInput').value) {
+        const q = document.getElementById('searchInput').value.toLowerCase();
+        let filtered = allProducts.filter(p => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q));
+        if (currentCategory) filtered = filtered.filter(p => p.category === currentCategory);
+        renderProducts(filtered);
+    } else {
+        renderProducts(allProducts);
+    }
 }
 
 function filterProducts() {
@@ -2424,6 +2499,7 @@ function filterProducts() {
     toggleClearBtn();
     let filtered = allProducts.filter(p => p.name.toLowerCase().includes(q) || p.description.toLowerCase().includes(q));
     if (currentCategory) filtered = filtered.filter(p => p.category === currentCategory);
+    displayedCount = 12;
     renderProducts(filtered);
 }
 

@@ -47,27 +47,72 @@ SAMPLE_PRODUCTS = [
     {"name": "Washi Tape Collection", "description": "Set of 15 rolls decorative washi tape. Various patterns and colors, 15mm width. Perfect for journaling, crafts, and gift wrapping.", "price": 11.99, "stock": 60, "category": "Stationery", "image_url": "https://images.unsplash.com/photo-1544816155-12df9643f363?w=400&h=300&fit=crop"},
     {"name": "Pencil Case", "description": "Canvas pencil case with multiple compartments. Fits up to 50 pens, waterproof material. Smooth YKK zipper, available in 8 colors.", "price": 12.99, "stock": 55, "category": "Stationery", "image_url": "https://images.unsplash.com/photo-1544816155-12df9643f363?w=400&h=300&fit=crop"},
     {"name": "Ruler & Protractor Set", "description": "Stainless steel ruler set with protractor. 12 inch and 6 inch rulers, 180-degree protractor. Etched markings, non-glare finish.", "price": 7.99, "stock": 70, "category": "Stationery", "image_url": "https://images.unsplash.com/photo-1586953208448-b95a79798f07?w=400&h=300&fit=crop"},
+
+    # Home & Kitchen
+    {"name": "Coffee Maker", "description": "Programmable drip coffee maker with 12-cup capacity. Built-in grinder, thermal carafe, and auto-brew timer. Perfect morning brew every time.", "price": 89.99, "stock": 22, "category": "Home & Kitchen", "image_url": "https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?w=400&h=300&fit=crop"},
+    {"name": "Air Fryer", "description": "5.8QT digital air fryer with 8 presets. Oil-free cooking, 1700W rapid air technology. Dishwasher-safe basket, perfect for healthy meals.", "price": 119.99, "stock": 18, "category": "Home & Kitchen", "image_url": "https://images.unsplash.com/photo-1626509653291-18d9a934b9db?w=400&h=300&fit=crop"},
+    {"name": "Electric Kettle", "description": "Stainless steel cordless electric kettle, 1.7L. 1500W fast boil, auto shut-off, and boil-dry protection. Boil water in under 5 minutes.", "price": 39.99, "stock": 40, "category": "Home & Kitchen", "image_url": "https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=400&h=300&fit=crop"},
+    {"name": "Knife Set", "description": "15-piece kitchen knife set with wooden block. German stainless steel blades, ergonomic handles. Includes chef, paring, bread, and steak knives.", "price": 149.99, "stock": 15, "category": "Home & Kitchen", "image_url": "https://images.unsplash.com/photo-1593618998160-e34014e67546?w=400&h=300&fit=crop"},
+    {"name": "Blender", "description": "High-powered 1200W blender with 52oz glass jar. 7 variable speeds, pulse function, and self-cleaning mode. Crushes ice and frozen fruit effortlessly.", "price": 79.99, "stock": 28, "category": "Home & Kitchen", "image_url": "https://images.unsplash.com/photo-1570222094114-d054a817e56b?w=400&h=300&fit=crop"},
+    {"name": "Cookware Set", "description": "10-piece non-stick cookware set. PFOA-free granite coating, induction compatible. Includes pans, pots, and lids for all your cooking needs.", "price": 179.99, "stock": 12, "category": "Home & Kitchen", "image_url": "https://images.unsplash.com/photo-1584990347449-a8b13e8a3a47?w=400&h=300&fit=crop"},
+
+    # Fitness
+    {"name": "Yoga Mat", "description": "Premium 6mm thick yoga mat with carrying strap. Non-slip texture, eco-friendly TPE material. Lightweight and perfect for all yoga styles.", "price": 29.99, "stock": 60, "category": "Fitness", "image_url": "https://images.unsplash.com/photo-1601925260368-ae2f83cf8b7f?w=400&h=300&fit=crop"},
+    {"name": "Dumbbell Set", "description": "Adjustable dumbbell set 5-50lbs. Quick-change weight system, space-saving design. Perfect for home gym strength training.", "price": 299.99, "stock": 10, "category": "Fitness", "image_url": "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&h=300&fit=crop"},
+    {"name": "Resistance Bands", "description": "Set of 5 resistance bands with door anchor and handles. 10-150lbs resistance levels, carry bag included. Full-body workout anywhere.", "price": 24.99, "stock": 75, "category": "Fitness", "image_url": "https://images.unsplash.com/photo-1598289431512-b97b0917dc41?w=400&h=300&fit=crop"},
+    {"name": "Foam Roller", "description": "High-density foam roller for muscle recovery. 36-inch length, textured surface for deep tissue massage. Relieves muscle soreness and tension.", "price": 19.99, "stock": 50, "category": "Fitness", "image_url": "https://images.unsplash.com/photo-1518611012118-696072aa579a?w=400&h=300&fit=crop"},
+    {"name": "Fitness Tracker", "description": "Slim fitness tracker with heart rate, sleep monitor, and 14-day battery. 5ATM water resistant, smartphone notifications. Track steps, calories, and workouts.", "price": 69.99, "stock": 35, "category": "Fitness", "image_url": "https://images.unsplash.com/photo-1575311373937-040b8e1fd5b6?w=400&h=300&fit=crop"},
+    {"name": "Jump Rope", "description": "Speed jump rope with ball bearings for smooth rotation. Adjustable length, foam handles. Great for cardio and coordination training.", "price": 12.99, "stock": 90, "category": "Fitness", "image_url": "https://images.unsplash.com/photo-1601422407692-ec4eeec1d9b3?w=400&h=300&fit=crop"},
+
+    # Books & Games
+    {"name": "Classic Novel Collection", "description": "Set of 5 timeless classic novels in hardcover. Includes Pride and Prejudice, 1984, To Kill a Mockingbird, The Great Gatsby, and Jane Eyre.", "price": 59.99, "stock": 25, "category": "Books", "image_url": "https://images.unsplash.com/photo-1495446815901-a7297e633e8d?w=400&h=300&fit=crop"},
+    {"name": "Chess Set", "description": "Wooden chess set with folding board. Hand-carved pieces, 15-inch board. Perfect for beginners and grandmasters alike.", "price": 44.99, "stock": 30, "category": "Games", "image_url": "https://images.unsplash.com/photo-1528819622765-d6bcf132f793?w=400&h=300&fit=crop"},
+    {"name": "Puzzle 1000 Pieces", "description": "1000-piece jigsaw puzzle featuring world map artwork. Premium quality, 26x18 inches finished size. Great for relaxation and family time.", "price": 19.99, "stock": 45, "category": "Games", "image_url": "https://images.unsplash.com/photo-1494059980473-813e73ee784b?w=400&h=300&fit=crop"},
+    {"name": "Coloring Book Set", "description": "Adult coloring book set of 3 with 60 colored pencils. Stress-relief designs including mandalas, flowers, and patterns.", "price": 24.99, "stock": 55, "category": "Books", "image_url": "https://images.unsplash.com/photo-1513364776144-60967b0f800f?w=400&h=300&fit=crop"},
+    {"name": "Board Game Strategy", "description": "Award-winning strategy board game for 2-4 players. 60-minute playtime, ages 10+. Build cities, manage resources, and trade with rivals.", "price": 49.99, "stock": 20, "category": "Games", "image_url": "https://images.unsplash.com/photo-1610890716171-6b1bb98ffd09?w=400&h=300&fit=crop"},
+
+    # Outdoor & Travel
+    {"name": "Camping Tent", "description": "4-person waterproof dome tent with rainfly. Easy 10-minute setup, 7x4 feet floor. Great for family camping and outdoor adventures.", "price": 129.99, "stock": 14, "category": "Outdoor", "image_url": "https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=400&h=300&fit=crop"},
+    {"name": "Sleeping Bag", "description": "3-season mummy sleeping bag rated to 20°F. Lightweight, compressible, water-resistant shell. Perfect for backpacking and camping.", "price": 69.99, "stock": 22, "category": "Outdoor", "image_url": "https://images.unsplash.com/photo-1578897367107-77d39ba0837b?w=400&h=300&fit=crop"},
+    {"name": "Hiking Boots", "description": "Waterproof hiking boots with ankle support. Vibram sole for superior grip, breathable mesh lining. Available in men and women sizes.", "price": 119.99, "stock": 30, "category": "Outdoor", "image_url": "https://images.unsplash.com/photo-1542840843-3349799cded6?w=400&h=300&fit=crop"},
+    {"name": "Water Bottle", "description": "Insulated stainless steel water bottle 32oz. Keeps drinks cold 24hrs or hot 12hrs. BPA-free, leak-proof lid, wide mouth for ice.", "price": 29.99, "stock": 80, "category": "Outdoor", "image_url": "https://images.unsplash.com/photo-1602143407151-7111542de6e8?w=400&h=300&fit=crop"},
+    {"name": "Headlamp", "description": "USB rechargeable LED headlamp 350 lumens. 5 modes, 60-degree adjustable beam. Waterproof, lightweight for running and camping.", "price": 22.99, "stock": 65, "category": "Outdoor", "image_url": "https://images.unsplash.com/photo-1542856204-00101eb6def4?w=400&h=300&fit=crop"},
+    {"name": "Daypack", "description": "20L lightweight daypack for hiking and travel. Padded straps, hydration compatible, multiple pockets. Folds into its own pocket.", "price": 39.99, "stock": 40, "category": "Outdoor", "image_url": "https://images.unsplash.com/photo-1622260614153-03223fb72052?w=400&h=300&fit=crop"},
+
+    # Beauty & Personal Care
+    {"name": "Hair Dryer", "description": "Professional ionic hair dryer 1875W. 3 heat settings, 2 speed settings, cool shot button. Includes concentrator and diffuser attachments.", "price": 59.99, "stock": 35, "category": "Beauty", "image_url": "https://images.unsplash.com/photo-1522338242992-e1a54906a8da?w=400&h=300&fit=crop"},
+    {"name": "Electric Toothbrush", "description": "Sonic electric toothbrush with 5 brushing modes. 30-day battery life, smart timer, and pressure sensor. 4 brush heads included.", "price": 79.99, "stock": 28, "category": "Beauty", "image_url": "https://images.unsplash.com/photo-1559591935-c6c92c6a5f5e?w=400&h=300&fit=crop"},
+    {"name": "Skincare Set", "description": "Complete 5-step skincare routine set. Cleanser, toner, serum, moisturizer, and SPF. Suitable for all skin types, paraben-free.", "price": 89.99, "stock": 20, "category": "Beauty", "image_url": "https://images.unsplash.com/photo-1556228720-195a672e8a03?w=400&h=300&fit=crop"},
+    {"name": "Perfume Collection", "description": "Set of 3 signature fragrances 30ml each. Floral, citrus, and woody scents. Long-lasting eau de parfum, elegant gift packaging.", "price": 69.99, "stock": 18, "category": "Beauty", "image_url": "https://images.unsplash.com/photo-1541643600914-78b084683601?w=400&h=300&fit=crop"},
+
+    # Pet Supplies
+    {"name": "Pet Bed", "description": "Orthopedic memory foam pet bed for dogs and cats. Removable washable cover, non-slip bottom. Available in small, medium, and large.", "price": 49.99, "stock": 30, "category": "Pet Supplies", "image_url": "https://images.unsplash.com/photo-1591946614720-90a587da4a36?w=400&h=300&fit=crop"},
+    {"name": "Cat Toy Set", "description": "Interactive cat toy set of 6. Includes feather wand, laser pointer, catnip mice, and crinkle balls. Hours of feline entertainment.", "price": 14.99, "stock": 70, "category": "Pet Supplies", "image_url": "https://images.unsplash.com/photo-1574144611937-0df059b5ef3e?w=400&h=300&fit=crop"},
+    {"name": "Dog Leash", "description": "Heavy-duty reflective dog leash 6ft. Padded handle, 360-degree swivel clasp. Strong nylon webbing for medium and large dogs.", "price": 19.99, "stock": 55, "category": "Pet Supplies", "image_url": "https://images.unsplash.com/photo-1583511655857-d19b40a7a54e?w=400&h=300&fit=crop"},
 ]
 
 
 def seed():
     db = SessionLocal()
     try:
-        if db.query(Product).count() > 0:
-            print("Database already seeded.")
-            return
-        for p in SAMPLE_PRODUCTS:
-            db.add(Product(**p))
+        existing = db.query(Product).count()
+        existing_names = {p.name for p in db.query(Product).all()}
+        new_products = [Product(**p) for p in SAMPLE_PRODUCTS if p["name"] not in existing_names]
+        for p in new_products:
+            db.add(p)
 
-        admin = User(
-            username="admin",
-            email="admin@luckyshop.com",
-            hashed_password=get_password_hash("admin123"),
-            is_admin=True,
-        )
-        db.add(admin)
+        admin = None
+        if existing == 0:
+            admin = User(
+                username="admin",
+                email="admin@luckyshop.com",
+                hashed_password=get_password_hash("admin123"),
+                is_admin=True,
+            )
+            db.add(admin)
+
         db.commit()
-        print(f"Seeded {len(SAMPLE_PRODUCTS)} products and admin user (admin / admin123).")
+        print(f"Added {len(new_products)} new products." + (" Created admin user (admin / admin123)." if admin else ""))
     finally:
         db.close()
 
