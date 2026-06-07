@@ -1,6 +1,6 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import FileResponse
+from fastapi.responses import HTMLResponse, FileResponse, JSONResponse
 from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 import os
@@ -31,9 +31,23 @@ app.include_router(upload.router)
 app.include_router(admin.router)
 
 static_dir = Path(__file__).parent / "static"
-app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+if static_dir.exists():
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
+
+HTML_CONTENT = None
+html_file = static_dir / "index.html"
+if html_file.exists():
+    HTML_CONTENT = html_file.read_text(encoding="utf-8")
 
 
-@app.get("/")
+@app.get("/", response_class=HTMLResponse)
 def root():
-    return FileResponse(static_dir / "index.html")
+    if HTML_CONTENT:
+        return HTMLResponse(content=HTML_CONTENT)
+    return HTMLResponse(content="<h1>LuckyShop API</h1><p>Frontend not available in this environment.</p>")
+
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
