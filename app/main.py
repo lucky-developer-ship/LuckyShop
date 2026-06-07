@@ -1,6 +1,6 @@
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.base import BaseHTTPMiddleware
 from collections import defaultdict
@@ -113,16 +113,12 @@ static_dir = Path(__file__).parent / "static"
 if static_dir.exists():
     app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
-HTML_CONTENT = None
 html_file = static_dir / "index.html"
-if html_file.exists():
-    HTML_CONTENT = html_file.read_text(encoding="utf-8")
 
-
-@app.get("/", response_class=HTMLResponse)
+@app.get("/")
 def root():
-    if HTML_CONTENT:
-        return HTMLResponse(content=HTML_CONTENT)
+    if html_file.exists():
+        return FileResponse(html_file)
     return HTMLResponse(content="<h1>LuckyShop API</h1><p>Frontend not available in this environment.</p>")
 
 
