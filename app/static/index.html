@@ -1437,6 +1437,61 @@
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
 }
+
+/* Pull to Refresh Indicator */
+.ptr-indicator {
+    display: none;
+    position: fixed;
+    top: 70px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-80px);
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 30px;
+    padding: 0.6rem 1.2rem;
+    z-index: 150;
+    align-items: center;
+    gap: 0.6rem;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    transition: transform 0.3s var(--ease-out), opacity 0.3s;
+    opacity: 0;
+    font-size: 0.82rem;
+    color: var(--text);
+    font-weight: 500;
+    pointer-events: none;
+}
+.ptr-indicator.visible {
+    display: flex;
+    opacity: 1;
+}
+.ptr-indicator.refreshing {
+    transform: translateX(-50%) translateY(0);
+}
+.ptr-spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid var(--border);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    flex-shrink: 0;
+    transition: transform 0.3s var(--ease-out);
+}
+.ptr-indicator.refreshing .ptr-spinner {
+    animation: ptr-spin 0.8s linear infinite;
+}
+.ptr-indicator.ready .ptr-spinner {
+    transform: rotate(180deg);
+    border-top-color: var(--primary);
+    border-color: var(--primary);
+}
+.ptr-indicator.ready {
+    color: var(--primary);
+}
+@keyframes ptr-spin {
+    to { transform: rotate(360deg); }
+}
 body.light .mobile-taskbar {
     background: rgba(255,255,255,0.92);
     border-top: 1px solid rgba(0,0,0,0.06);
@@ -1809,6 +1864,12 @@ body.light .mobile-taskbar {
     </div>
 </div>
 
+<!-- Pull to Refresh Indicator (Mobile) -->
+<div class="ptr-indicator" id="ptrIndicator">
+    <div class="ptr-spinner"></div>
+    <span class="ptr-text">Pull to refresh</span>
+</div>
+
 <!-- Mobile Bottom Taskbar -->
 <div class="mobile-taskbar" id="mobileTaskbar">
     <button class="task-item active" onclick="scrollToTop()">
@@ -2043,6 +2104,83 @@ function toggleTheme() {
 }
 function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ===== Pull to Refresh (Mobile) =====
+let ptrStartY = 0;
+let ptrCurrentY = 0;
+let ptrActive = false;
+let ptrTriggered = false;
+const PTR_THRESHOLD = 80;
+const PTR_MAX = 130;
+
+function initPullToRefresh() {
+    if (window.innerWidth > 768) return;
+    const indicator = document.getElementById('ptrIndicator');
+    if (!indicator) return;
+
+    const queryStr = window.matchMedia('(max-width: 768px)');
+
+    document.addEventListener('touchstart', (e) => {
+        if (window.scrollY > 5) return;
+        if (document.querySelector('.modal-overlay.show')) return;
+        if (document.getElementById('cartDrawer').classList.contains('open')) return;
+        if (document.getElementById('navLinks').classList.contains('open')) return;
+        ptrStartY = e.touches[0].clientY;
+        ptrActive = true;
+        ptrTriggered = false;
+    }, { passive: true });
+
+    document.addEventListener('touchmove', (e) => {
+        if (!ptrActive || window.scrollY > 5) return;
+        ptrCurrentY = e.touches[0].clientY - ptrStartY;
+        if (ptrCurrentY < 0) return;
+        const progress = Math.min(ptrCurrentY, PTR_MAX);
+        const ready = ptrCurrentY >= PTR_THRESHOLD;
+        indicator.classList.add('visible');
+        if (ready) {
+            indicator.classList.add('ready');
+            indicator.querySelector('.ptr-text').textContent = 'Release to refresh';
+        } else {
+            indicator.classList.remove('ready');
+            indicator.querySelector('.ptr-text').textContent = 'Pull to refresh';
+        }
+        indicator.style.opacity = Math.min(progress / 60, 1);
+    }, { passive: true });
+
+    document.addEventListener('touchend', () => {
+        if (!ptrActive) return;
+        ptrActive = false;
+        if (ptrCurrentY >= PTR_THRESHOLD && !ptrTriggered) {
+            ptrTriggered = true;
+            doRefresh();
+        } else {
+            indicator.classList.remove('visible');
+            indicator.classList.remove('ready');
+        }
+        ptrCurrentY = 0;
+    });
+}
+
+async function doRefresh() {
+    const indicator = document.getElementById('ptrIndicator');
+    if (!indicator) return;
+    indicator.classList.remove('ready');
+    indicator.classList.add('refreshing');
+    indicator.querySelector('.ptr-text').textContent = 'Refreshing...';
+    try {
+        await fetchProducts();
+        if (token) await loadCart();
+        showToast('Updated!');
+    } catch (e) {
+        showToast('Refresh failed');
+    } finally {
+        setTimeout(() => {
+            indicator.classList.remove('refreshing');
+            indicator.classList.remove('visible');
+            indicator.querySelector('.ptr-text').textContent = 'Pull to refresh';
+        }, 400);
+    }
 }
 function handleProfileTap() {
     if (!token) {
@@ -2820,6 +2958,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initThreeBackground();
     initLenis();
     initAnimations();
+    initPullToRefresh();
     updateAuthUI();
     fetchProducts();
     if (token) loadCart();
