@@ -6,7 +6,6 @@ from fastapi.responses import JSONResponse
 router = APIRouter(prefix="/api/upload", tags=["upload"])
 
 UPLOAD_DIR = os.path.join(os.path.dirname(os.path.dirname(__file__)), "static", "uploads")
-os.makedirs(UPLOAD_DIR, exist_ok=True)
 
 
 @router.post("/image")
@@ -22,6 +21,8 @@ async def upload_image(file: UploadFile = File(...)):
     content = await file.read()
     if len(content) > 5 * 1024 * 1024:
         raise HTTPException(status_code=400, detail="File too large (max 5MB)")
+
+    os.makedirs(UPLOAD_DIR, exist_ok=True)
 
     with open(filepath, "wb") as f:
         f.write(content)

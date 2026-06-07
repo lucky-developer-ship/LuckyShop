@@ -14,12 +14,23 @@ connect_args = {}
 if DATABASE_URL.startswith("sqlite"):
     connect_args = {"check_same_thread": False}
 
-try:
-    engine = create_engine(DATABASE_URL, connect_args=connect_args, pool_pre_ping=True)
-    SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-except Exception as e:
-    logger.error(f"Database connection failed: {e}")
-    raise
+engine = None
+SessionLocal = None
+
+def _init_db():
+    global engine, SessionLocal
+    if engine is not None:
+        return
+    try:
+        engine = create_engine(DATABASE_URL, connect_args=connect_args, pool_pre_ping=True)
+        SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
+        logger.info("Database engine created successfully")
+    except Exception as e:
+        logger.error(f"Database connection failed: {e}")
+        engine = None
+        SessionLocal = None
+
+_init_db()
 
 
 class Base(DeclarativeBase):
@@ -27,6 +38,10 @@ class Base(DeclarativeBase):
 
 
 def get_db():
+    if SessionLocal is None:
+        _init_db()
+    if SessionLocal is None:
+        raise Exception("Database not available")
     db = SessionLocal()
     try:
         yield db
