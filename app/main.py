@@ -1,10 +1,11 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse
+from fastapi.staticfiles import StaticFiles
 from pathlib import Path
 import os
 from app.database import engine, Base
-from app.routers import products, users, cart, orders, google_auth, support
+from app.routers import products, users, cart, orders, google_auth, support, upload, admin
 
 Base.metadata.create_all(bind=engine)
 
@@ -26,8 +27,13 @@ app.include_router(cart.router)
 app.include_router(orders.router)
 app.include_router(google_auth.router)
 app.include_router(support.router)
+app.include_router(upload.router)
+app.include_router(admin.router)
+
+static_dir = Path(__file__).parent / "static"
+app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 
 @app.get("/")
 def root():
-    return FileResponse(Path(__file__).parent / "static" / "index.html")
+    return FileResponse(static_dir / "index.html")

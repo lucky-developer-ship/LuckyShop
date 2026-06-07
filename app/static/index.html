@@ -25,6 +25,15 @@
             --glass: rgba(255,255,255,0.03);
             --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
         }
+        body.light {
+            --bg-dark: #f1f5f9;
+            --bg-card: #ffffff;
+            --bg-card-hover: #f8fafc;
+            --text: #0f172a;
+            --text-muted: #64748b;
+            --border: rgba(0,0,0,0.08);
+            --glass: rgba(0,0,0,0.03);
+        }
 
         html { scroll-behavior: auto; }
         body {
@@ -105,6 +114,20 @@
             transition: width 0.3s var(--ease-out);
         }
         nav .nav-links a:hover::after { width: 100%; }
+        .theme-toggle {
+            cursor: pointer;
+            width: 36px;
+            height: 36px;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            background: var(--glass);
+        }
+        .theme-toggle:hover { border-color: var(--primary); }
+        .theme-icon { font-size: 1.1rem; }
         nav .cart-icon {
             position: relative;
             cursor: pointer;
@@ -171,6 +194,112 @@
             background: rgba(99, 102, 241, 0.1);
             border-color: var(--primary-light);
         }
+        .profile-btn {
+            padding: 0.5rem 1.2rem;
+            background: transparent;
+            color: var(--primary-light);
+            border: 1px solid var(--primary);
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-out);
+        }
+        .profile-btn:hover {
+            background: rgba(99, 102, 241, 0.1);
+            border-color: var(--primary-light);
+        }
+        .admin-btn {
+            padding: 0.5rem 1.2rem;
+            background: linear-gradient(135deg, var(--accent), #e11d48);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s var(--ease-out);
+        }
+        .admin-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 15px rgba(244, 63, 94, 0.3);
+        }
+        .admin-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+        }
+        .admin-stat-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+        .admin-stat-card .stat-val {
+            font-size: 1.5rem;
+            font-weight: 700;
+            font-family: 'Space Grotesk', sans-serif;
+            color: var(--primary-light);
+        }
+        .admin-stat-card .stat-lbl {
+            font-size: 0.78rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+        .admin-section-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            color: var(--text);
+        }
+        .admin-order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.7rem;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            font-size: 0.82rem;
+        }
+        .admin-order-info { flex: 1; }
+        .admin-order-id { font-weight: 600; }
+        .admin-order-user { color: var(--text-muted); font-size: 0.78rem; }
+        .admin-order-total { font-weight: 700; margin: 0 0.8rem; }
+        .admin-order-actions { display: flex; gap: 0.3rem; }
+        .admin-order-actions select {
+            padding: 0.3rem;
+            border-radius: 6px;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+            color: var(--text);
+            font-size: 0.75rem;
+            cursor: pointer;
+        }
+        .profile-card {
+            text-align: center;
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--border);
+            margin-bottom: 1rem;
+        }
+        .profile-avatar {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.8rem;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: white;
+        }
+        .profile-name { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.2rem; }
+        .profile-email { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 0.4rem; }
+        .profile-joined { font-size: 0.8rem; color: var(--text-muted); }
         .order-card {
             border: 1px solid var(--border);
             border-radius: 14px;
@@ -1136,6 +1265,9 @@
         <a href="#products">Products</a>
         <a href="#about">About</a>
         <a href="#" onclick="openSupportModal(); return false;">Customer Service</a>
+        <div class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">
+            <span class="theme-icon" id="themeIcon">&#9790;</span>
+        </div>
         <div class="cart-icon" onclick="toggleCart()">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/><path d="m1 1 4 0 2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/></svg>
             <span class="badge" id="cartCount">0</span>
@@ -1144,6 +1276,8 @@
         <button class="auth-btn" id="authBtn" onclick="showLogin()">Login</button>
         <button class="logout-btn" id="userBtn" style="display:none" onclick="logout()">Logout</button>
         <button class="orders-btn" id="ordersBtn" style="display:none" onclick="openOrdersModal()">My Orders</button>
+        <button class="profile-btn" id="profileBtn" style="display:none" onclick="openProfileModal()">Profile</button>
+        <button class="admin-btn" id="adminBtn" style="display:none" onclick="openAdminModal()">Admin</button>
     </div>
 </nav>
 
@@ -1239,7 +1373,12 @@
         <input type="number" id="prodPrice" placeholder="Price" step="0.01" min="0">
         <input type="number" id="prodStock" placeholder="Stock quantity" min="0">
         <input type="text" id="prodCategory" placeholder="Category (e.g. Electronics)">
-        <input type="text" id="prodImage" placeholder="Image URL (optional)">
+        <div style="margin-bottom: 0.9rem;">
+            <label style="display:block; font-size:0.8rem; color:var(--text-muted); margin-bottom:0.4rem;">Product Image</label>
+            <input type="file" id="prodImageFile" accept="image/*" style="width:100%; padding:0.6rem; background:rgba(255,255,255,0.04); border:1px solid var(--border); border-radius:10px; color:var(--text); font-size:0.85rem; font-family:'Inter',sans-serif; cursor:pointer;">
+            <div style="text-align:center; margin:0.4rem 0; font-size:0.8rem; color:var(--text-muted);">or</div>
+            <input type="text" id="prodImage" placeholder="Image URL (optional)">
+        </div>
         <div class="btn-group">
             <button class="btn-primary" onclick="addProduct()">Add Product</button>
             <button class="btn-secondary" onclick="closeModals()">Cancel</button>
@@ -1267,6 +1406,28 @@
 
 <!-- Toast -->
 <div class="toast" id="toast"></div>
+
+<!-- Admin Dashboard Modal -->
+<div class="modal-overlay" id="adminModal">
+    <div class="modal" style="max-width: 700px; max-height: 85vh; overflow-y: auto; position: relative;">
+        <button class="close-btn" onclick="closeAdminModal()" style="position: absolute; top: 1rem; right: 1rem;">&times;</button>
+        <h2>Admin Dashboard</h2>
+        <div id="adminContent">
+            <div style="text-align:center; padding: 2rem;">
+                <div class="spinner" style="margin: 0 auto;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Profile Modal -->
+<div class="modal-overlay" id="profileModal">
+    <div class="modal" style="max-width: 500px; max-height: 85vh; overflow-y: auto; position: relative;">
+        <button class="close-btn" onclick="closeProfileModal()" style="position: absolute; top: 1rem; right: 1rem;">&times;</button>
+        <h2>My Profile</h2>
+        <div id="profileContent"></div>
+    </div>
+</div>
 
 <!-- Orders Modal -->
 <div class="modal-overlay" id="ordersModal">
@@ -1429,6 +1590,21 @@ const API = '';
 let token = localStorage.getItem('token');
 let allProducts = [];
 let currentCategory = '';
+
+// ===== Theme =====
+function initTheme() {
+    const saved = localStorage.getItem('theme') || 'dark';
+    if (saved === 'light') {
+        document.body.classList.add('light');
+        document.getElementById('themeIcon').textContent = '\u2600';
+    }
+}
+function toggleTheme() {
+    document.body.classList.toggle('light');
+    const isLight = document.body.classList.contains('light');
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+    document.getElementById('themeIcon').textContent = isLight ? '\u2600' : '\u263E';
+}
 
 // ===== Three.js Background =====
 function initThreeBackground() {
@@ -1713,6 +1889,142 @@ function updateAuthUI() {
     document.getElementById('authBtn').style.display = token ? 'none' : '';
     document.getElementById('userBtn').style.display = token ? '' : 'none';
     document.getElementById('ordersBtn').style.display = token ? '' : 'none';
+    document.getElementById('profileBtn').style.display = token ? '' : 'none';
+    checkAdmin();
+}
+
+async function checkAdmin() {
+    if (!token) return;
+    try {
+        const res = await fetch(`${API}/api/users/me`, {headers: {'Authorization': `Bearer ${token}`}});
+        if (res.ok) {
+            const user = await res.json();
+            document.getElementById('adminBtn').style.display = user.is_admin ? '' : 'none';
+        }
+    } catch(e) {}
+}
+
+// ===== Admin Dashboard =====
+function openAdminModal() {
+    closeModals();
+    document.getElementById('adminModal').classList.add('show');
+    loadAdminData();
+}
+
+function closeAdminModal() {
+    document.getElementById('adminModal').classList.remove('show');
+}
+
+async function loadAdminData() {
+    const container = document.getElementById('adminContent');
+    try {
+        const [statsRes, ordersRes, usersRes] = await Promise.all([
+            fetch(`${API}/api/admin/stats`, {headers: {'Authorization': `Bearer ${token}`}}),
+            fetch(`${API}/api/admin/orders`, {headers: {'Authorization': `Bearer ${token}`}}),
+            fetch(`${API}/api/admin/users`, {headers: {'Authorization': `Bearer ${token}`}}),
+        ]);
+
+        if (!statsRes.ok) { container.innerHTML = '<p style="text-align:center; color:var(--accent);">Admin access denied</p>'; return; }
+
+        const stats = await statsRes.json();
+        const orders = await ordersRes.json();
+        const users = await usersRes.json();
+
+        container.innerHTML = `
+            <div class="admin-stats">
+                <div class="admin-stat-card"><div class="stat-val">${stats.products}</div><div class="stat-lbl">Products</div></div>
+                <div class="admin-stat-card"><div class="stat-val">${stats.users}</div><div class="stat-lbl">Users</div></div>
+                <div class="admin-stat-card"><div class="stat-val">${stats.orders}</div><div class="stat-lbl">Orders</div></div>
+                <div class="admin-stat-card"><div class="stat-val">$${stats.revenue.toFixed(2)}</div><div class="stat-lbl">Revenue</div></div>
+            </div>
+            <div class="admin-section-title">Recent Orders</div>
+            <div id="adminOrdersList">
+                ${orders.length === 0 ? '<p style="color:var(--text-muted); font-size:0.85rem;">No orders yet</p>' :
+                    orders.slice(0, 10).map(o => `
+                        <div class="admin-order-item">
+                            <div class="admin-order-info">
+                                <div class="admin-order-id">#${o.id}</div>
+                                <div class="admin-order-user">${o.items.length} items</div>
+                            </div>
+                            <div class="admin-order-total">$${o.total_price.toFixed(2)}</div>
+                            <div class="admin-order-actions">
+                                <select onchange="updateOrderStatus(${o.id}, this.value)">
+                                    <option value="pending" ${o.status==='pending'?'selected':''}>Pending</option>
+                                    <option value="processing" ${o.status==='processing'?'selected':''}>Processing</option>
+                                    <option value="shipped" ${o.status==='shipped'?'selected':''}>Shipped</option>
+                                    <option value="delivered" ${o.status==='delivered'?'selected':''}>Delivered</option>
+                                    <option value="cancelled" ${o.status==='cancelled'?'selected':''}>Cancelled</option>
+                                </select>
+                            </div>
+                        </div>
+                    `).join('')}
+            </div>
+            <div class="admin-section-title" style="margin-top:1rem;">Users (${users.length})</div>
+            <div style="max-height:150px; overflow-y:auto;">
+                ${users.map(u => `
+                    <div style="display:flex; justify-content:space-between; padding:0.4rem 0; border-bottom:1px solid var(--border); font-size:0.82rem;">
+                        <span>${u.username}</span>
+                        <span style="color:var(--text-muted);">${u.email}</span>
+                        <span style="color:${u.is_admin?'var(--accent)':'var(--text-muted)'};">${u.is_admin?'Admin':'User'}</span>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+    } catch(e) {
+        container.innerHTML = '<p style="text-align:center;">Failed to load admin data</p>';
+    }
+}
+
+async function updateOrderStatus(orderId, status) {
+    try {
+        await fetch(`${API}/api/admin/orders/${orderId}`, {
+            method: 'PATCH',
+            headers: {'Content-Type': 'application/json', 'Authorization': `Bearer ${token}`},
+            body: JSON.stringify({status})
+        });
+        showToast('Order status updated', 'success');
+    } catch(e) {
+        showToast('Failed to update', 'error');
+    }
+}
+
+// ===== Profile =====
+function openProfileModal() {
+    closeModals();
+    document.getElementById('profileModal').classList.add('show');
+    loadProfile();
+}
+
+function closeProfileModal() {
+    document.getElementById('profileModal').classList.remove('show');
+}
+
+async function loadProfile() {
+    const container = document.getElementById('profileContent');
+    if (!token) {
+        container.innerHTML = '<div class="orders-empty"><h3>Please login</h3></div>';
+        return;
+    }
+    try {
+        const res = await fetch(`${API}/api/users/me`, {headers: {'Authorization': `Bearer ${token}`}});
+        if (!res.ok) throw new Error();
+        const user = await res.json();
+        const initial = user.username.charAt(0).toUpperCase();
+        const joinDate = new Date(user.created_at).toLocaleDateString('en-US', {year:'numeric', month:'long', day:'numeric'});
+        container.innerHTML = `
+            <div class="profile-card">
+                <div class="profile-avatar">${initial}</div>
+                <div class="profile-name">${user.username}</div>
+                <div class="profile-email">${user.email}</div>
+                <div class="profile-joined">Joined ${joinDate}</div>
+            </div>
+            <div style="text-align:center; margin-top: 0.5rem;">
+                <button class="btn-primary" onclick="closeProfileModal(); openOrdersModal();">View My Orders</button>
+            </div>
+        `;
+    } catch(e) {
+        container.innerHTML = '<div class="orders-empty"><h3>Failed to load profile</h3></div>';
+    }
 }
 
 // ===== Cart =====
@@ -1856,10 +2168,29 @@ async function addProduct() {
     const price = parseFloat(document.getElementById('prodPrice').value);
     const stock = parseInt(document.getElementById('prodStock').value) || 0;
     const category = document.getElementById('prodCategory').value.trim();
-    const image_url = document.getElementById('prodImage').value.trim();
+    const fileInput = document.getElementById('prodImageFile');
+    const imageUrlInput = document.getElementById('prodImage');
     const errEl = document.getElementById('addProductError');
 
     if (!name || !price) { errEl.textContent = 'Name and price are required'; errEl.style.display = 'block'; return; }
+
+    let image_url = imageUrlInput.value.trim();
+
+    if (fileInput.files.length > 0) {
+        const formData = new FormData();
+        formData.append('file', fileInput.files[0]);
+        try {
+            const uploadRes = await fetch(`${API}/api/upload/image`, { method: 'POST', body: formData });
+            if (uploadRes.ok) {
+                const uploadData = await uploadRes.json();
+                image_url = uploadData.url;
+            } else {
+                errEl.textContent = 'Image upload failed'; errEl.style.display = 'block'; return;
+            }
+        } catch(e) {
+            errEl.textContent = 'Image upload failed'; errEl.style.display = 'block'; return;
+        }
+    }
 
     try {
         const res = await fetch(`${API}/api/products/`, {
@@ -1875,6 +2206,7 @@ async function addProduct() {
         document.getElementById('prodStock').value = '';
         document.getElementById('prodCategory').value = '';
         document.getElementById('prodImage').value = '';
+        document.getElementById('prodImageFile').value = '';
         fetchProducts();
         showToast('Product added successfully!', 'success');
     } catch(e) { errEl.textContent = 'Connection error'; errEl.style.display = 'block'; }
@@ -2012,6 +2344,7 @@ async function submitSupport() {
 
 // ===== Init =====
 document.addEventListener('DOMContentLoaded', () => {
+    initTheme();
     initThreeBackground();
     initLenis();
     initAnimations();

@@ -82,3 +82,7 @@ class OrderResponse(BaseModel):
     items: list[CartItemResponse]
 
     model_config = {"from_attributes": True}
+
+
+class OrderStatusUpdate(BaseModel):
+    status: str

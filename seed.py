@@ -1,5 +1,6 @@
 from app.database import SessionLocal, engine, Base
-from app.models import Product
+from app.models import Product, User
+from app.auth import get_password_hash
 
 Base.metadata.create_all(bind=engine)
 
@@ -57,8 +58,16 @@ def seed():
             return
         for p in SAMPLE_PRODUCTS:
             db.add(Product(**p))
+
+        admin = User(
+            username="admin",
+            email="admin@luckyshop.com",
+            hashed_password=get_password_hash("admin123"),
+            is_admin=True,
+        )
+        db.add(admin)
         db.commit()
-        print(f"Seeded {len(SAMPLE_PRODUCTS)} products.")
+        print(f"Seeded {len(SAMPLE_PRODUCTS)} products and admin user (admin / admin123).")
     finally:
         db.close()
 
