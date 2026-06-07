@@ -2045,7 +2045,7 @@ function scrollToTop() {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 function handleProfileTap() {
-    if (typeof currentUser === 'undefined' || !currentUser) {
+    if (!token) {
         showLogin();
     } else {
         openProfileModal();
@@ -2359,6 +2359,8 @@ function updateAuthUI() {
     document.getElementById('userBtn').style.display = token ? '' : 'none';
     document.getElementById('ordersBtn').style.display = token ? '' : 'none';
     document.getElementById('profileBtn').style.display = token ? '' : 'none';
+    const tp = document.getElementById('taskProfileLabel');
+    if (tp) tp.textContent = token ? 'Profile' : 'Login';
     checkAdmin();
 }
 
