@@ -10,6 +10,7 @@ from pathlib import Path
 import os
 from app.database import engine, Base
 from app.routers import products, users, cart, orders, google_auth, support, upload, admin
+from sqlalchemy import text
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -76,6 +77,7 @@ class SecurityMiddleware(BaseHTTPMiddleware):
         response.headers["X-XSS-Protection"] = "1; mode=block"
         response.headers["Referrer-Policy"] = "strict-origin-when-cross-origin"
         response.headers["Permissions-Policy"] = "camera=(), microphone=(), geolocation=()"
+        response.headers["Content-Security-Policy"] = "default-src 'self'; script-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com 'unsafe-inline'; style-src 'self' https://fonts.googleapis.com 'unsafe-inline'; img-src 'self' data: https://images.unsplash.com https://via.placeholder.com; font-src 'self' https://fonts.gstatic.com; connect-src 'self'"
 
         path = request.url.path
         if path.startswith("/static/"):
@@ -118,4 +120,12 @@ def root():
 
 @app.get("/health")
 def health():
-    return {"status": "ok"}
+    db_ok = False
+    if engine is not None:
+        try:
+            with engine.connect() as conn:
+                conn.execute(text("SELECT 1"))
+                db_ok = True
+        except Exception:
+            pass
+    return {"status": "ok", "database": "connected" if db_ok else "disconnected"}

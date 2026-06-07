@@ -2084,6 +2084,11 @@ let token = localStorage.getItem('token');
 let allProducts = [];
 let currentCategory = '';
 
+function h(str) {
+    if (str == null) return '';
+    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;').replace(/'/g, '&#x27;');
+}
+
 // ===== Theme =====
 function initTheme() {
     const saved = localStorage.getItem('theme') || 'dark';
@@ -2384,16 +2389,16 @@ function renderProducts(products, animate = false) {
     grid.innerHTML = products.map(p => `
         <div class="product-card">
             <div class="image-wrapper">
-                <img src="${p.image_url || 'https://via.placeholder.com/300x200?text=' + encodeURIComponent(p.name)}" alt="${p.name}" loading="lazy">
+                <img src="${h(p.image_url) || 'https://via.placeholder.com/300x200?text=' + encodeURIComponent(h(p.name))}" alt="${h(p.name)}" loading="lazy">
                 <div class="image-overlay"></div>
-                <div class="category-tag">${p.category}</div>
+                <div class="category-tag">${h(p.category)}</div>
             </div>
             <div class="info">
-                <h3>${p.name}</h3>
-                <div class="description">${p.description}</div>
+                <h3>${h(p.name)}</h3>
+                <div class="description">${h(p.description)}</div>
                 <div class="price-row">
                     <div class="price">$${p.price.toFixed(2)}</div>
-                    <div class="stock ${p.stock === 0 ? 'out' : (p.stock < 10 ? 'low' : '')}">${p.stock > 0 ? p.stock + ' in stock' : 'Out of stock'}</div>
+                    <div class="stock ${p.stock === 0 ? 'out' : (p.stock < 10 ? 'low' : '')}">${p.stock > 0 ? h(p.stock) + ' in stock' : 'Out of stock'}</div>
                 </div>
                 <button class="add-btn" onclick="addToCart(event, ${p.id})" ${p.stock === 0 ? 'disabled' : ''}>${p.stock > 0 ? 'Add to Cart' : 'Out of Stock'}</button>
             </div>
@@ -2568,12 +2573,12 @@ async function loadAdminData() {
                         <div class="admin-order-item">
                             <div class="admin-order-info">
                                 <div class="admin-order-id">#${o.id}</div>
-                                <div class="admin-order-user">${o.items.length} items</div>
+                                <div class="admin-order-user">${h(o.items.length)} items</div>
                             </div>
                             <div class="admin-order-total">$${o.total_price.toFixed(2)}</div>
                             <div class="admin-order-actions">
                                 <select onchange="updateOrderStatus(${o.id}, this.value)">
-                                    <option value="pending" ${o.status==='pending'?'selected':''}>Pending</option>
+                                    <option value="pending" ${o.status==='pending'?'selected':''}>${h(o.status)}</option>
                                     <option value="processing" ${o.status==='processing'?'selected':''}>Processing</option>
                                     <option value="shipped" ${o.status==='shipped'?'selected':''}>Shipped</option>
                                     <option value="delivered" ${o.status==='delivered'?'selected':''}>Delivered</option>
@@ -2587,8 +2592,8 @@ async function loadAdminData() {
             <div style="max-height:150px; overflow-y:auto;">
                 ${users.map(u => `
                     <div style="display:flex; justify-content:space-between; padding:0.4rem 0; border-bottom:1px solid var(--border); font-size:0.82rem;">
-                        <span>${u.username}</span>
-                        <span style="color:var(--text-muted);">${u.email}</span>
+                        <span>${h(u.username)}</span>
+                        <span style="color:var(--text-muted);">${h(u.email)}</span>
                         <span style="color:${u.is_admin?'var(--accent)':'var(--text-muted)'};">${u.is_admin?'Admin':'User'}</span>
                     </div>
                 `).join('')}
@@ -2637,10 +2642,10 @@ async function loadProfile() {
         const joinDate = new Date(user.created_at).toLocaleDateString('en-US', {year:'numeric', month:'long', day:'numeric'});
         container.innerHTML = `
             <div class="profile-card">
-                <div class="profile-avatar">${initial}</div>
-                <div class="profile-name">${user.username}</div>
-                <div class="profile-email">${user.email}</div>
-                <div class="profile-joined">Joined ${joinDate}</div>
+                <div class="profile-avatar">${h(initial)}</div>
+                <div class="profile-name">${h(user.username)}</div>
+                <div class="profile-email">${h(user.email)}</div>
+                <div class="profile-joined">Joined ${h(joinDate)}</div>
             </div>
             <div style="text-align:center; margin-top: 0.5rem;">
                 <button class="btn-primary" onclick="closeProfileModal(); openOrdersModal();">View My Orders</button>
@@ -2712,7 +2717,7 @@ function renderCart(data) {
     container.innerHTML = data.items.map(item => `
         <div class="cart-item">
             <div class="item-info">
-                <h4>${item.product_name}</h4>
+                <h4>${h(item.product_name)}</h4>
                 <span>$${item.product_price.toFixed(2)} each</span>
                 <div class="qty-controls">
                     <button class="qty-btn" onclick="changeQty(${item.id}, ${item.quantity}, -1)">-</button>
@@ -2878,17 +2883,17 @@ async function loadOrders() {
                 <div class="order-card">
                     <div class="order-header">
                         <span class="order-id">Order #${o.id}</span>
-                        <span class="order-status ${statusClass}">${o.status}</span>
+                        <span class="order-status ${statusClass}">${h(o.status)}</span>
                     </div>
                     <div class="order-meta">
-                        <div class="order-item-row">&#128197; ${dateStr}</div>
-                        <div class="order-item-row">&#128337; ${timeStr}</div>
-                        <div class="order-item-row">&#128722; ${totalItems} item${totalItems !== 1 ? 's' : ''}</div>
+                        <div class="order-item-row">&#128197; ${h(dateStr)}</div>
+                        <div class="order-item-row">&#128337; ${h(timeStr)}</div>
+                        <div class="order-item-row">&#128722; ${h(totalItems)} item${totalItems !== 1 ? 's' : ''}</div>
                     </div>
                     <div class="order-items-list">
                         ${o.items.map(i => `
                             <div class="order-item-row">
-                                <span class="order-item-name">${i.product_name}</span>
+                                <span class="order-item-name">${h(i.product_name)}</span>
                                 <span class="order-item-qty">x${i.quantity}</span>
                                 <span class="order-item-price">$${(i.product_price * i.quantity).toFixed(2)}</span>
                             </div>
