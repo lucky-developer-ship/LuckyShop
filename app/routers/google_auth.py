@@ -1,5 +1,7 @@
+import os
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import RedirectResponse, HTMLResponse
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 import httpx
 from app.database import get_db
@@ -7,9 +9,9 @@ from app import models, schemas, auth
 
 router = APIRouter(prefix="/api/auth/google", tags=["google-auth"])
 
-GOOGLE_CLIENT_ID = "YOUR_GOOGLE_CLIENT_ID"
-GOOGLE_CLIENT_SECRET = "YOUR_GOOGLE_CLIENT_SECRET"
-GOOGLE_REDIRECT_URI = "http://127.0.0.1:8000/api/auth/google/callback"
+GOOGLE_CLIENT_ID = os.getenv("GOOGLE_CLIENT_ID", "YOUR_GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.getenv("GOOGLE_CLIENT_SECRET", "YOUR_GOOGLE_CLIENT_SECRET")
+GOOGLE_REDIRECT_URI = os.getenv("GOOGLE_REDIRECT_URI", "http://localhost:8000/api/auth/google/callback")
 GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
 GOOGLE_TOKEN_URL = "https://oauth2.googleapis.com/token"
 GOOGLE_USERINFO_URL = "https://www.googleapis.com/oauth2/v2/userinfo"
@@ -86,7 +88,6 @@ async def google_callback(code: str = "", db: Session = Depends(get_db)):
     return HTMLResponse(content=html)
 
 
-from pydantic import BaseModel
 
 class TokenRequest(BaseModel):
     id_token: str

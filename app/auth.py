@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta, timezone
 import os
+import secrets
 from fastapi import Depends, HTTPException, status
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError, jwt
@@ -12,7 +13,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 if not SECRET_KEY:
     if os.getenv("ENV") == "production":
         raise Exception("CRITICAL: SECRET_KEY environment variable is missing in production!")
-    SECRET_KEY = "your-secret-key-change-in-production"
+    SECRET_KEY = secrets.token_urlsafe(32)
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60"))
 
