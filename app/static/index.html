@@ -452,7 +452,7 @@
         .hero {
             position: relative;
             z-index: 1;
-            min-height: 100vh;
+            min-height: 90vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -471,7 +471,7 @@
             font-size: 0.8rem;
             font-weight: 500;
             color: var(--text-muted);
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
             backdrop-filter: blur(10px);
             opacity: 0;
             transform: translateY(30px);
@@ -1319,8 +1319,10 @@
                 z-index: 140;
             }
             .mobile-overlay.show { display: block; }
-            .hero { padding: 6rem 1.25rem 2rem; }
-            .hero h1 { font-size: 1.8rem; letter-spacing: -0.5px; }
+            .hero { padding: 5rem 1.25rem 1.5rem; min-height: auto; }
+            .hero h1 { font-size: 1.7rem; letter-spacing: -0.5px; margin-bottom: 0.8rem; }
+            .hero p { font-size: 0.88rem; margin-bottom: 1.2rem; }
+            .hero-badge { margin-bottom: 0.8rem; font-size: 0.7rem; padding: 0.35rem 0.9rem; }
             .hero p { font-size: 0.9rem; }
             .hero-buttons { flex-direction: column; width: 100%; max-width: 300px; gap: 0.6rem; }
             .hero-buttons button { padding: 0.75rem 1.5rem; font-size: 0.9rem; }
